@@ -1,0 +1,11 @@
+This is a text file to encrypt by Trivium
+Nothing here
+The proposed design contains a 288-bit internal state denoted by (s1, . . . , s288).
+The key stream generation consists of an iterative process which extracts the
+values of 15 specific state bits and uses them both to update 3 bits of the state
+and to compute 1 bit of key stream zi
+. The state bits are then rotated and the
+process repeats itself until the requested N ≤ 2
+64 bits of key stream have been
+generated. A complete description is given by the following simple pseudo-code:
+😘
