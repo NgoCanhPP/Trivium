@@ -1,6 +1,7 @@
 import binascii
 import os.path
 import os
+import time
 
 def hex_xor(hex_str1, hex_str2): 
     l = min(len(hex_str1), len(hex_str2))
@@ -69,25 +70,34 @@ def main():
     with open("key.txt", 'r') as f:
         key = f.read()
     files = os.listdir("./files_to_encrypt")
-    
+    log = open("log.txt", "w")
     for file in files:
-        file = "./files_to_encrypt/" + file
         print("encrypting {} ...".format(file))
-        encryption(file, key)
+        st = time.time()
+        encryption("./files_to_encrypt/" + file, key)
+        en = time.time()
+        print("encrypted {} done in {} sec".format(file, en - st))
+        log.write("encrypted {} done in {} sec\n".format(file, en - st))
     
     for file in files:
-        file = "./encrypted/" + file
         print("decrypting {} ...".format(file))
-        decryption(file, key)
+        st = time.time()
+        decryption("./encrypted/" + file, key)
+        en = time.time()
+        print("decrypted {} done in {}sec".format(file, en - st))
 
     for file in files:
         t = (open("./files_to_encrypt/" + file, 'rb'), open("./decrypted/" + file, 'rb'))
         if t[0].read() == t[1].read():
             print("check {} success".format(file))
-        else: print("check {} fail😭".format(file))
+            log.write("check {} success\n".format(file))
+        else: 
+            print("check {} fail😭".format(file))
+            log.write("check {} fail😭\n".format(file))
         t[0].close()
         t[1].close()
     
+    log.close()
 
 if __name__ == "__main__":
     main()
