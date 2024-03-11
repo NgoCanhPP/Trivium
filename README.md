@@ -1,5 +1,8 @@
 # Trivium 
 
+Name: Ngô Trí Cảnh
+StudentID: 20220015
+
 ## Mô tả cách cài đặt
 File trivium.py bao gồm các hàm chính:
 1. hex_xor(hex_str1, hex_str2):  
