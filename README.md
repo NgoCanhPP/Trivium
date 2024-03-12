@@ -1,6 +1,6 @@
 # Trivium 
 
-Name: Ngô Trí Cảnh
+Name: Ngô Trí Cảnh   
 StudentID: 20220015
 
 ## Mô tả cách cài đặt
