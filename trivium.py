@@ -2,45 +2,52 @@ import binascii
 import os.path
 import os
 import time
+from itertools import repeat
 
 def hex_xor(hex_str1, hex_str2): 
     l = min(len(hex_str1), len(hex_str2))
     a = int(hex_str1[:l], 16)
     b = int(hex_str2[:l], 16)
-    c = hex(a ^ b)[2:]
-    return '0' * (l - len(c)) + c
+    c = hex(a ^ b)[2:].zfill(l)
+    return c
 
 def generation_key(key, iv, N):
     key = bin(int(key, 16))[2:]
     iv = bin(int(iv, 16))[2:]
-    if len(iv) != 80:
-        iv = (80-len(iv)) * '0' + iv
-    if len(key) != 80:
-        key = (80-len(key)) * '0' + key
-    key_stream = ""
+    iv = iv.zfill(80)
+    key = key.zfill(80)
+    iv = [int(_) for _ in iv]
+    key = [int(_) for _ in key]
+    
+    key_stream = []
     # Init
-    rA = iv + 13 * '0'
-    rB = key + 4 * '0'
-    rC = 108 * '0' + 3 * '1'
+    rA = iv + list(repeat(0, 13))
+    rB = key + list(repeat(0, 4))
+    rC = list(repeat(0, 108)) + list(repeat(1, 3))
     # Warm_up
-    for i in range(1152):
-        t1 = (int(rA[65]) + int(rA[92]) + int(rA[90]) * int(rA[91])) % 2
-        t2 = (int(rB[68]) + int(rB[83]) + int(rB[81]) * int(rB[82])) % 2
-        t3 = (int(rC[65]) + int(rC[110]) + int(rC[108]) * int(rC[109])) % 2
-        rA = str((int(rA[68]) + t3) % 2) + rA[:-1]
-        rB = str((int(rB[77]) + t1) % 2) + rB[:-1]
-        rC = str((int(rC[86]) + t2) % 2) + rC[:-1]
+    for _ in range(1152):
+        t1 = rA[65] ^ rA[92] ^ (rA[90] & rA[91])
+        t2 = rB[68] ^ rB[83] ^ (rB[81] & rB[82])
+        t3 = rC[65] ^ rC[110] ^ (rC[108] & rC[109])
+        rA.insert(0, rA[68] ^ t3)
+        rA.pop()
+        rB.insert(0, rB[77] ^ t1)
+        rB.pop()
+        rC.insert(0, rC[86] ^ t2)
+        rC.pop()
     # Gen_key
-    for i in range(N*4):
-        t1 = (int(rA[65]) + int(rA[92]) + int(rA[90]) * int(rA[91])) % 2
-        t2 = (int(rB[68]) + int(rB[83]) + int(rB[81]) * int(rB[82])) % 2
-        t3 = (int(rC[65]) + int(rC[110]) + int(rC[108]) * int(rC[109])) % 2
-        key_stream = key_stream + str((t1 + t2 + t3) % 2)
-        rA = str((int(rA[68]) + t3) % 2) + rA[:-1]
-        rB = str((int(rB[77]) + t1) % 2) + rB[:-1]
-        rC = str((int(rC[86]) + t2) % 2) + rC[:-1]
-    key_stream = hex(int("0b" + key_stream, 2))[2:]
-    key_stream = (N-len(key_stream)) * '0' + key_stream
+    for _ in range(N*4):
+        t1 = rA[65] ^ rA[92] ^ (rA[90] & rA[91])
+        t2 = rB[68] ^ rB[83] ^ (rB[81] & rB[82])
+        t3 = rC[65] ^ rC[110] ^ (rC[108] & rC[109])
+        key_stream.append(t1 ^ t2 ^ t3)
+        rA.insert(0, rA[68] ^ t3)
+        rA.pop()
+        rB.insert(0, rB[77] ^ t1)
+        rB.pop()
+        rC.insert(0, rC[86] ^ t2)
+        rC.pop()
+    key_stream = hex(int("0b" + ''.join([str(i) for i in key_stream]), 2))[2:].zfill(N)
     return key_stream
 
 def encryption(file, key):
@@ -70,6 +77,9 @@ def main():
     with open("key.txt", 'r') as f:
         key = f.read()
     files = os.listdir("./files_to_encrypt")
+    for file in files:
+        if file[0] == '.':
+            del file
     log = open("log.txt", "w")
     for file in files:
         print("encrypting {} ...".format(file))

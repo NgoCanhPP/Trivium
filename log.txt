@@ -1,22 +1,24 @@
-encrypted world192.txt done in 31.03884196281433 sec
-encrypted E.coli done in 58.16178798675537 sec
-encrypted xargs.1 done in 0.058557987213134766 sec
-encrypted large.zip done in 41.12450408935547 sec
-encrypted grammar.lsp done in 0.05061030387878418 sec
-encrypted kennedy.xls done in 12.955442905426025 sec
-encrypted bible.txt done in 51.0073459148407 sec
-encrypted sum done in 0.48906803131103516 sec
-encrypted asyoulik.txt done in 1.5826389789581299 sec
-encrypted ptt5 done in 6.455840110778809 sec
-encrypted lcet10.txt done in 5.610358953475952 sec
-encrypted plrabn12.txt done in 6.134274959564209 sec
-encrypted alice29.txt done in 1.9225988388061523 sec
-encrypted cp.html done in 0.31285691261291504 sec
-encrypted fields.c done in 0.1428818702697754 sec
-encrypted cantrbry.zip done in 9.241249799728394 sec
+encrypted world192.txt done in 10.69016695022583 sec
+encrypted E.coli done in 21.017940282821655 sec
+encrypted xargs.1 done in 0.022417783737182617 sec
+encrypted .DS_Store done in 0.027302980422973633 sec
+encrypted large.zip done in 13.971673011779785 sec
+encrypted grammar.lsp done in 0.018578290939331055 sec
+encrypted kennedy.xls done in 4.321126222610474 sec
+encrypted bible.txt done in 18.018282890319824 sec
+encrypted sum done in 0.15713095664978027 sec
+encrypted asyoulik.txt done in 0.5240249633789062 sec
+encrypted ptt5 done in 2.103278160095215 sec
+encrypted lcet10.txt done in 1.7714648246765137 sec
+encrypted plrabn12.txt done in 1.9684150218963623 sec
+encrypted alice29.txt done in 0.6205959320068359 sec
+encrypted cp.html done in 0.10232281684875488 sec
+encrypted fields.c done in 0.04643988609313965 sec
+encrypted cantrbry.zip done in 3.0299429893493652 sec
 check world192.txt success
 check E.coli success
 check xargs.1 success
+check .DS_Store success
 check large.zip success
 check grammar.lsp success
 check kennedy.xls success
